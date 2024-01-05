@@ -1,0 +1,6 @@
+{
+  "description": "A simple POST to the initial route",
+  "pathname": "/v1/todos/1",
+  "method": "DELETE",
+  "headers": {}
+}

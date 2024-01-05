@@ -1,0 +1,25 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["config/*.oas.json"],
+      // If you use OpenAPI 3.0 change this to https://cdn.zuplo.com/schemas/openapi-v3.0-zuplo.json
+      "url": "https://cdn.zuplo.com/schemas/openapi-v3.1-zuplo.json"
+    },
+    {
+      "fileMatch": ["config/policies.json"],
+      "url": "https://cdn.zuplo.com/schemas/policies.json"
+    },
+    {
+      "fileMatch": ["config/routes.json"],
+      "url": "https://cdn.zuplo.com/schemas/routes.json"
+    },
+    {
+      "fileMatch": ["config/dev-portal.json"],
+      "url": "https://cdn.zuplo.com/schemas/dev-portal.json"
+    },
+    {
+      "fileMatch": ["docs/sidebar.json"],
+      "url": "https://cdn.zuplo.com/schemas/sidebar.json"
+    }
+  ]
+}

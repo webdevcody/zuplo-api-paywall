@@ -1,0 +1,243 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "My Zuplo API",
+    "version": "1.0.0"
+  },
+  "components": {
+    "schemas": {
+      "create-consumer": {
+        "type": "object",
+        "required": [
+          "description"
+        ],
+        "properties": {
+          "description": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/who-am-i": {
+      "x-zuplo-path": {
+        "pathMode": "open-api"
+      },
+      "get": {
+        "summary": "who am i?",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "default",
+            "module": "$import(./modules/handlers/echo-user)",
+            "options": {}
+          },
+          "policies": {
+            "inbound": [
+              "api-key-inbound"
+            ]
+          }
+        },
+        "operationId": "ce8c9b1f-e146-4c67-b05a-8fd69cd0121b"
+      }
+    },
+    "/v1/subscription": {
+      "x-zuplo-path": {
+        "pathMode": "open-api"
+      },
+      "get": {
+        "summary": "Get Subscription",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "none",
+          "handler": {
+            "export": "default",
+            "module": "$import(./modules/handlers/subscription/get-subscription)",
+            "options": {}
+          },
+          "policies": {
+            "inbound": [
+              "auth0-jwt-auth-inbound"
+            ]
+          }
+        },
+        "operationId": "db8b3641-e6c0-4f3e-9220-69a0b1e8f6bc"
+      }
+    },
+    "/v1/subscription/usage": {
+      "x-zuplo-path": {
+        "pathMode": "open-api"
+      },
+      "get": {
+        "summary": "Get ",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "none",
+          "handler": {
+            "export": "default",
+            "module": "$import(./modules/handlers/subscription/usage/get-usage)",
+            "options": {}
+          },
+          "policies": {
+            "inbound": [
+              "auth0-jwt-auth-inbound"
+            ]
+          }
+        },
+        "operationId": "5345aa88-d304-400f-a41b-8ef682fced5c"
+      }
+    },
+    "/v1/consumers/my": {
+      "x-zuplo-path": {
+        "pathMode": "open-api"
+      },
+      "get": {
+        "summary": "Get my consumers",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "${env.BUCKET_URL}/consumers/?include-api-keys=true&key-format=visible&tag.email=${context.custom.email}"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "composite-add-zapi-key"
+            ],
+            "outbound": []
+          }
+        },
+        "operationId": "d86ecbdc-2aa7-4bd0-9e61-4245ecd1d5cd"
+      },
+      "post": {
+        "summary": "Create consumer",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "createConsumer",
+            "module": "$import(./modules/handlers/consumers/create-consumer)",
+            "options": {}
+          },
+          "policies": {
+            "inbound": [
+              "auth0-jwt-auth-inbound",
+              "check-subscription-and-add-email"
+            ]
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/create-consumer"
+              }
+            }
+          }
+        },
+        "operationId": "bd902f32-26d8-481d-b053-276d6a694781"
+      }
+    },
+    "/v1/consumers/{consumerName}/roll": {
+      "x-zuplo-path": {
+        "pathMode": "open-api"
+      },
+      "post": {
+        "summary": "Roll consumer key",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "${env.BUCKET_URL}/consumers/${params.consumerName}/roll-key?tag.email=${context.custom.email}"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "composite-add-zapi-key"
+            ],
+            "outbound": []
+          }
+        },
+        "operationId": "f73c7996-b6bc-48b8-815b-ead885d723ed",
+        "x-internal": false
+      }
+    },
+    "/v1/consumers/{consumerName}/keys/{keyId}": {
+      "x-zuplo-path": {
+        "pathMode": "open-api"
+      },
+      "delete": {
+        "summary": "Delete key",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "${env.BUCKET_URL}/consumers/${params.consumerName}/keys/${params.keyId}?tag.email=${context.custom.email}"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "composite-add-zapi-key"
+            ],
+            "outbound": []
+          }
+        },
+        "operationId": "fa92d9f2-3d03-48e9-b475-19206b52f64a"
+      }
+    },
+    "/v1/consumers/{consumerName}": {
+      "x-zuplo-path": {
+        "pathMode": "open-api"
+      },
+      "patch": {
+        "summary": "Update consumer",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "${env.BUCKET_URL}/consumers/${params.consumerName}?tag.orgId=${context.custom.email}"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "composite-add-zapi-key"
+            ],
+            "outbound": []
+          }
+        },
+        "operationId": "84960874-662e-4454-ae3f-5f53611ba072"
+      },
+      "delete": {
+        "summary": "Delete consumer",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "${env.BUCKET_URL}/consumers/${params.consumerName}?tag.email=${context.custom.email}"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "composite-add-zapi-key"
+            ]
+          }
+        },
+        "operationId": "9dcf25f3-7e22-4338-8255-c55e7165e9c2"
+      }
+    }
+  }
+}

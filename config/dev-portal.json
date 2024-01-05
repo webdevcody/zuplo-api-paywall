@@ -1,0 +1,15 @@
+{
+  "$schema": "https://cdn.zuplo.com/schemas/dev-portal.json",
+  "enableAuthentication": true,
+  "enabled": true,
+  "authentication": {
+    "provider": "auth0",
+    "authority": "https://zuplo-openai-paywall.us.auth0.com/",
+    "jwksUrl": "https://zuplo-openai-paywall.us.auth0.com/.well-known/jwks.json",
+    "devPortalClient": {
+      "clientId": "sezyZ3CTeXa6lDDFAAXJKFWoJjSKwfDi",
+      "audience": "https://api.example.com/"
+    }
+  },
+  "generateExamples": true
+}

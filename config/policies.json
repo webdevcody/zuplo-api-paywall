@@ -1,0 +1,106 @@
+{
+  "policies": [
+    {
+      "handler": {
+        "export": "SetHeadersInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "headers": [
+            {
+              "name": "authorization",
+              "value": "Bearer $env(ZAPI_KEY)",
+              "overwrite": true
+            }
+          ]
+        }
+      },
+      "name": "add-zapi-key-auth",
+      "policyType": "set-headers-inbound"
+    },
+    {
+      "handler": {
+        "export": "Auth0JwtInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "allowUnauthenticatedRequests": false,
+          "auth0Domain": "$env(AUTH0_DOMAIN)",
+          "audience": "$env(AUTH0_AUDIENCE)"
+        }
+      },
+      "name": "auth0-jwt-auth-inbound",
+      "policyType": "auth0-jwt-auth-inbound"
+    },
+    {
+      "handler": {
+        "export": "ApiKeyInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "allowUnauthenticatedRequests": false
+        }
+      },
+      "name": "api-key-inbound",
+      "policyType": "api-key-inbound"
+    },
+    {
+      "handler": {
+        "export": "default",
+        "module": "$import(./modules/handlers/middlewares/metered-request)"
+      },
+      "name": "metered-request",
+      "policyType": "custom-code-inbound"
+    },
+    {
+      "handler": {
+        "export": "default",
+        "module": "$import(./modules/handlers/middlewares/check-subscription-and-add-email)"
+      },
+      "name": "check-subscription-and-add-email",
+      "policyType": "custom-code-inbound"
+    },
+    {
+      "handler": {
+        "export": "CompositeInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "policies": [
+            "api-key-inbound",
+            "metered-request"
+          ]
+        }
+      },
+      "name": "composite-metered-request",
+      "policyType": "composite-inbound"
+    },
+    {
+      "handler": {
+        "export": "CompositeInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "policies": [
+            "auth0-jwt-auth-inbound",
+            "check-subscription-and-add-email",
+            "add-zapi-key-auth"
+          ]
+        }
+      },
+      "name": "composite-add-zapi-key",
+      "policyType": "composite-inbound"
+    },
+    {
+      "handler": {
+        "export": "SetHeadersInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $env(OPEN_AI_KEY)"
+            }
+          ]
+        }
+      },
+      "name": "set-headers-inbound",
+      "policyType": "set-headers-inbound"
+    }
+  ]
+}

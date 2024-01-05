@@ -1,0 +1,23 @@
+{
+  "name": "samples-todo-list",
+  "version": "1.0.0",
+  "author": "",
+  "copyright": "",
+  "scripts": {
+    "dev": "zuplo dev",
+    "build": "zuplo build",
+    "test": "zuplo test",
+    "postinstall": "husky install"
+  },
+  "dependencies": {
+    "@zuplo/core": "^5.1148.0",
+    "@zuplo/react-api-key-manager": "^1.0.0",
+    "@zuplo/runtime": "^5.1148.0"
+  },
+  "devDependencies": {
+    "@types/chai": "4.3.4",
+    "@zuplo/test": "*",
+    "chai": "4.3.4",
+    "husky": "^7.0.4"
+  }
+}

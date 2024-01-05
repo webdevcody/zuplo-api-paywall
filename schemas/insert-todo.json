@@ -1,0 +1,34 @@
+{
+  "type": "object",
+  "default": {},
+  "title": "Root Schema",
+  "required": ["userId", "title", "completed"],
+  "additionalProperties": false,
+  "properties": {
+    "userId": {
+      "type": "integer",
+      "default": 0,
+      "title": "The userId Schema",
+      "examples": [1]
+    },
+    "title": {
+      "type": "string",
+      "default": "",
+      "title": "The title Schema",
+      "examples": ["fugiat veniam minus"]
+    },
+    "completed": {
+      "type": "boolean",
+      "default": false,
+      "title": "The completed Schema",
+      "examples": [false]
+    }
+  },
+  "examples": [
+    {
+      "userId": 1,
+      "title": "fugiat veniam minus",
+      "completed": false
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "description": "A simple POST to the initial route",
+  "pathname": "/v1/todos",
+  "method": "POST",
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": "{\n  \"userId\": 1,\n  \"title\": \"Buy oatmilk\",\n  \"completed\": false\n}"
+}
